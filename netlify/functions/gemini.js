@@ -45,6 +45,7 @@ exports.handler = async function (event) {
     generationConfig: {
       maxOutputTokens: maxTokens,
       responseMimeType: "application/json", // JSONのみを出力させる（前置き・コードフェンス防止）
+      thinkingConfig: { thinkingBudget: 0 }, // 「思考過程」の出力を止め、トークンをそのままJSON出力に使う
     },
   };
   if (system) {
@@ -84,8 +85,15 @@ exports.handler = async function (event) {
 
     const candidate = (data.candidates || [])[0];
     const text = candidate && candidate.content && Array.isArray(candidate.content.parts)
-      ? candidate.content.parts.map((p) => p.text || "").join("")
+      ? candidate.content.parts.filter((p) => !p.thought).map((p) => p.text || "").join("")
       : "";
+
+    if (!text) {
+      return {
+        statusCode: 502,
+        body: JSON.stringify({ error: "Gemini returned an empty response", detail: raw }),
+      };
+    }
 
     // フロント側の既存パース処理（data.content から type:"text" を探す）に
     // そのまま合わせられるよう、Anthropic互換の形にラップして返す
