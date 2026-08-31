@@ -8,7 +8,7 @@
 // 必要な環境変数: GEMINI_API_KEY
 // 取得場所: https://aistudio.google.com/apikey （Googleアカウントのみ、クレカ不要）
 
-const GEMINI_MODEL = "gemini-3.6-flash"; // 2026年7月リリースの最新Flashモデル。無料枠あり（目安：15 RPM / 1,500 RPD）
+const GEMINI_MODEL = "gemini-2.5-flash-lite"; // 新しいプレビュー系モデルは無料枠が極端に少ない(例: gemini-3.6-flashは1日20件)ため、より無料枠が広い枯れたモデルを使用
 
 exports.handler = async function (event) {
   if (event.httpMethod !== "POST") {
@@ -43,13 +43,10 @@ exports.handler = async function (event) {
   const geminiBody = {
     contents,
     generationConfig: {
-      // Gemini 3.x系は既定で「思考」にも出力トークンと処理時間を使うため、
-      // 余裕を持たせて打ち切り・タイムアウトを防ぐ
       maxOutputTokens: Math.max(maxTokens, 2048),
       responseMimeType: "application/json", // JSONのみを出力させる（前置き・コードフェンス防止）
-      // gemini-3.x系はthinkingBudgetではなくthinkingLevelを使う（混在させると400エラーになる）。
-      // 完全オフにはできないため、最小のlowを指定して応答時間を短縮する。
-      thinkingConfig: { thinkingLevel: "low" },
+      // gemini-2.5-flash-lite は既定で「思考」を行わないモデルのため、
+      // thinkingConfigは指定しない（3.x系のthinkingLevelを指定すると400エラーになる）。
     },
   };
   if (system) {
