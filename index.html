@@ -1,0 +1,1203 @@
+<style>
+  .aad-root {
+    --navy: #EFE1C4;
+    --navy-soft: #E6D3A8;
+    --navy-line: rgba(28,23,18,0.16);
+    --paper: #1C1712;
+    --paper-dim: #B7A574;
+    --red: #B23A26;
+    --amber: #A3822F;
+    --slate: #7A6C52;
+    --cream: #FBF6EA;
+    --ink-black: #1C1712;
+    --font-display: "Shippori Mincho", "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    --font-body: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    --font-mono: "Courier New", monospace;
+
+    background: var(--navy);
+    color: var(--paper);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  .aad-root * { box-sizing: border-box; }
+  .aad-wrap { overflow-x: hidden; }
+
+  .aad-wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* ---------- Header ---------- */
+  .aad-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    color: var(--ink-black);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    background: var(--paper);
+    color: var(--navy);
+    padding: 6px 14px 6px 10px;
+  }
+  .aad-eyebrow::before {
+    content: "";
+    width: 7px; height: 7px;
+    background: var(--red);
+  }
+  .aad-title {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 5.4vw, 58px);
+    font-weight: 700;
+    line-height: 1.08;
+    margin: 0 0 18px;
+    letter-spacing: -0.01em;
+    position: relative;
+    display: inline-block;
+  }
+  .aad-title::after {
+    content: "";
+    display: block;
+    width: 84px;
+    height: 5px;
+    background: var(--red);
+    margin-top: 14px;
+  }
+  .aad-sub {
+    color: var(--slate);
+    font-size: 14px;
+    line-height: 1.8;
+    margin: 0 0 34px;
+    max-width: 640px;
+  }
+
+  /* ---------- Order sheet (input form) ---------- */
+  .aad-sheet {
+    border: 2px solid var(--paper);
+    background: linear-gradient(180deg, rgba(28,23,18,0.04), transparent);
+    padding: 28px 28px 24px;
+    margin-bottom: 44px;
+    position: relative;
+  }
+  .aad-sheet::before {
+    content: "案件シート";
+    position: absolute;
+    top: -12px; left: 24px;
+    background: var(--paper);
+    color: var(--navy);
+    padding: 3px 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+  }
+  .aad-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 22px 28px;
+  }
+  .aad-field label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    color: var(--slate);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .aad-field input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--paper-dim);
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 4px 2px 8px;
+    outline: none;
+    transition: border-color .2s ease;
+  }
+  .aad-field input:focus { border-bottom-color: var(--amber); }
+  .aad-field select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--paper-dim);
+    color: var(--paper);
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 4px 2px 8px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color .2s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--paper) 50%), linear-gradient(135deg, var(--paper) 50%, transparent 50%);
+    background-position: calc(100% - 14px) center, calc(100% - 9px) center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+  .aad-field select:focus { border-bottom-color: var(--amber); }
+  .aad-field select option { color: var(--paper); background: var(--navy); }
+  .aad-field input::placeholder { color: rgba(28,23,18,0.38); }
+
+  .aad-subnote {
+    font-size: 11.5px;
+    color: var(--slate);
+    margin: 18px 0 14px;
+    padding-left: 2px;
+    border-left: 2px solid var(--navy-line);
+    padding-left: 10px;
+  }
+  .aad-grid-sub { padding: 2px 2px 2px 10px; border-left: 2px solid var(--navy-line); }
+  .aad-field-wide { grid-column: span 2; }
+  @media (max-width: 640px) {
+    .aad-field-wide { grid-column: span 1; }
+  }
+
+  .aad-start-row { display:flex; align-items:center; gap:16px; margin-top: 28px; flex-wrap: wrap; }
+
+  .aad-btn {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: var(--ink-black);
+    color: var(--navy);
+    border: none;
+    padding: 13px 24px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--red);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .aad-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--red); }
+  .aad-btn:active { transform: translate(1px,1px); box-shadow: 2px 2px 0 var(--red); }
+  .aad-btn:disabled { background: var(--navy-line); color: var(--slate); cursor: not-allowed; box-shadow: none; transform:none; }
+  .aad-btn.ghost {
+    background: transparent;
+    border: 2px solid var(--paper);
+    color: var(--paper);
+    box-shadow: none;
+  }
+  .aad-btn.ghost:hover { background: var(--paper); color: var(--navy); transform: none; box-shadow: none; }
+  .aad-btn.small { padding: 8px 14px; font-size: 10.5px; }
+
+  .aad-err { color: var(--red); font-size: 12.5px; font-family: var(--font-mono); }
+
+  /* ---------- Body layout: rail + stage ---------- */
+  .aad-body { display: block; }
+  .aad-export-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+    padding: 18px 20px;
+    background: var(--paper);
+    border: 2px solid var(--paper);
+  }
+  .aad-btn-hero {
+    background: var(--red);
+    color: var(--cream);
+    font-size: 13.5px;
+    padding: 16px 32px;
+    box-shadow: 5px 5px 0 var(--navy);
+    animation: aad-pulse 2.2s ease-in-out infinite;
+  }
+  .aad-btn-hero:hover { box-shadow: 7px 7px 0 var(--navy); }
+  .aad-btn-hero:active { box-shadow: 2px 2px 0 var(--navy); }
+  .aad-btn-hero:disabled {
+    background: transparent;
+    color: var(--paper-dim);
+    border: 2px solid var(--paper-dim);
+    box-shadow: none;
+    animation: none;
+  }
+  @keyframes aad-pulse {
+    0%, 100% { box-shadow: 5px 5px 0 var(--navy); }
+    50% { box-shadow: 5px 5px 0 var(--navy), 0 0 0 5px rgba(178,58,38,0.35); }
+  }
+  .aad-export-hint {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--navy-soft);
+  }
+  .aad-export-bar .aad-err { color: #E2795F; }
+  .aad-body-inner { display: flex; gap: 36px; align-items: flex-start; }
+  .aad-rail {
+    flex: 0 0 230px;
+    position: sticky;
+    top: 20px;
+    border-left: 1px solid var(--navy-line);
+    padding-left: 20px;
+  }
+  .aad-step-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--slate);
+    text-align: left;
+    padding: 12px 8px;
+    cursor: pointer;
+    position: relative;
+    font-family: var(--font-body);
+    transition: transform .12s ease;
+  }
+  .aad-step-btn:hover { transform: translateX(3px); color: var(--paper); }
+  .aad-step-btn::before {
+    content: "";
+    position: absolute;
+    left: -21px; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--navy-line);
+  }
+  .aad-step-btn.active { color: var(--paper); }
+  .aad-step-btn.active::before { background: var(--red); }
+  .aad-step-num {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--paper-dim);
+    border: 2px solid var(--navy-line);
+    width: 28px; height: 28px;
+    display: flex; align-items:center; justify-content:center;
+    flex-shrink: 0;
+    transition: background .12s ease, color .12s ease, border-color .12s ease;
+  }
+  .aad-step-btn.active .aad-step-num { background: var(--ink-black); border-color: var(--ink-black); color: var(--navy); }
+  .aad-step-btn.done .aad-step-num { border-color: var(--red); color: var(--red); }
+  .aad-step-label { display: block; font-size: 13.5px; padding-top: 4px; line-height: 1.4; }
+  .aad-stamp {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--navy);
+    background: var(--red);
+    padding: 2px 6px;
+    transform: rotate(-4deg);
+    display: inline-block;
+    margin-top: 4px;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+
+  .aad-stage { flex: 1; min-width: 0; }
+  .aad-stage-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .aad-stage-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .aad-stage-num {
+    color: var(--navy);
+    background: var(--red);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 3px 9px;
+    margin-right: 12px;
+  }
+
+  .aad-empty {
+    border: 2px dashed var(--navy-line);
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--slate);
+    font-size: 13.5px;
+    line-height: 1.9;
+  }
+  .aad-loading {
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--red);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+  }
+
+  /* Cards for generated content */
+  .aad-card {
+    border: 1px solid var(--navy-line);
+    border-left: 3px solid var(--paper);
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    background: rgba(28,23,18,0.035);
+    transition: border-left-color .12s ease, transform .12s ease;
+  }
+  .aad-card:hover { border-left-color: var(--red); transform: translateX(2px); }
+  .aad-card h4 {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--paper);
+  }
+  .aad-card p { margin: 0; font-size: 13.5px; line-height: 1.85; color: rgba(28,23,18,0.86); }
+  .aad-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--slate);
+    letter-spacing: 0.08em;
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+  .aad-copy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap: 10px; }
+  .aad-copy-item {
+    border: 1px solid var(--navy-line);
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    position: relative;
+    cursor: pointer;
+    transition: border-color .12s ease, background .12s ease;
+  }
+  .aad-copy-item:hover { border-color: var(--paper); background: var(--paper); color: var(--navy); }
+  .aad-copy-item:hover .aad-copy-axis { color: var(--navy-soft); }
+  .aad-copy-item .aad-copy-axis { font-family: var(--font-mono); font-size: 9.5px; color: var(--slate); display:block; margin-bottom:4px; }
+  .aad-copy-item .aad-copy-copied { position:absolute; top:8px; right:10px; font-size:10px; color: var(--red); font-family: var(--font-mono); font-weight:700; opacity:0; transition: opacity .2s; }
+  .aad-copy-item.copied .aad-copy-copied { opacity: 1; }
+
+  .aad-section-num { font-family: var(--font-mono); font-weight: 700; color: var(--navy); background: var(--red); font-size: 11px; padding: 2px 7px; margin-right: 8px; }
+
+  .aad-metrics-form { display:grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap:16px; margin-bottom:22px; }
+
+  .aad-diag-block { margin-bottom: 18px; }
+  .aad-diag-block h5 {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin: 0 0 10px;
+  }
+  .aad-diag-block ul { margin: 0; padding-left: 18px; }
+  .aad-diag-block li { font-size: 13.5px; line-height: 1.85; margin-bottom: 6px; color: rgba(28,23,18,0.86); }
+
+  .aad-step-short { display: none; }
+
+  /* ---------- Responsive: tablet / narrow ---------- */
+  @media (max-width: 760px) {
+    .aad-wrap { padding: 28px 16px 64px; }
+    .aad-sub { font-size: 13.5px; }
+    .aad-sheet { padding: 22px 16px 18px; }
+    .aad-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 18px 20px; }
+    .aad-start-row { gap: 14px; }
+    .aad-start-row { flex-direction: column; align-items: stretch; }
+    .aad-btn, .aad-btn.ghost { width: 100%; text-align: center; box-shadow: 3px 3px 0 var(--red); }
+    .aad-btn.ghost { box-shadow: none; }
+    .aad-btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--red); }
+
+    .aad-export-bar { flex-direction: column; align-items: stretch; }
+    .aad-export-bar .aad-btn-hero { width: 100%; text-align: center; }
+
+    .aad-body-inner { flex-direction: column; gap: 0; }
+    .aad-rail {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--navy);
+      flex: none;
+      width: calc(100% + 32px);
+      margin: 0 -16px 20px;
+      display: flex;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      gap: 6px;
+      border-left: none;
+      border-bottom: 1px solid var(--navy-line);
+      padding: 4px 16px 12px;
+    }
+    .aad-step-btn {
+      width: auto;
+      flex: 0 0 auto;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .aad-step-btn:hover { transform: none; }
+    .aad-step-btn::before, .aad-step-btn.active::after { display: none; }
+    .aad-step-btn.active { background: rgba(163,130,47,0.14); }
+    .aad-step-label { display: none; }
+    .aad-step-short { display: block; font-size: 10.5px; white-space: nowrap; }
+    .aad-stamp { margin-top: 2px; }
+
+    .aad-stage-title { font-size: 20px; }
+    .aad-stage-head { gap: 8px; }
+    .aad-stage-head .aad-btn.ghost.small { width: auto; }
+    .aad-copy-grid { grid-template-columns: 1fr; }
+    .aad-card { padding: 14px 15px; }
+    .aad-card:hover { transform: none; }
+    .aad-metrics-form { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 14px; }
+  }
+
+  /* ---------- Responsive: phones ---------- */
+  @media (max-width: 460px) {
+    .aad-title { letter-spacing: 0; }
+    .aad-title::after { width: 56px; height: 4px; margin-top: 10px; }
+    .aad-eyebrow { font-size: 10px; letter-spacing: 0.2em; }
+    .aad-sheet::before { font-size: 10px; left: 16px; }
+    .aad-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .aad-field input { font-size: 16px; } /* prevents iOS zoom-on-focus */
+    .aad-start-row { flex-direction: column; align-items: stretch; }
+    .aad-btn.small { width: auto; }
+    .aad-stage-head { flex-direction: column; align-items: flex-start; }
+    .aad-stage-num { display: inline-block; margin-bottom: 4px; }
+  }
+</style>
+
+<div class="aad-root">
+  <div class="aad-wrap">
+    <div class="aad-eyebrow">CREATIVE OPS DESK</div>
+    <h1 class="aad-title">AI広告ディレクター</h1>
+    <p class="aad-sub">商材情報を1枚のシートに入れるだけで、競合分析からコピー、バナー構成、LP設計、ABテスト、配信後の振り返りまでを一気通貫でディレクションします。</p>
+
+    <div class="aad-sheet">
+      <div class="aad-grid">
+        <div class="aad-field">
+          <label>商材</label>
+          <input id="aad-in-product" placeholder="例：ダイエットサプリ" />
+        </div>
+      </div>
+
+      <div class="aad-subnote">任意：商品名やLP・販売ページのURLを入れると、その内容も踏まえて構成を考えます</div>
+      <div class="aad-grid aad-grid-sub">
+        <div class="aad-field">
+          <label>商材名（任意）</label>
+          <input id="aad-in-product-name" placeholder="例：メタボメラインDX" />
+        </div>
+        <div class="aad-field aad-field-wide">
+          <label>商材URL（任意）</label>
+          <input id="aad-in-product-url" placeholder="https://example.com/lp" />
+        </div>
+      </div>
+
+      <div class="aad-grid" style="margin-top:22px;">
+        <div class="aad-field">
+          <label>ターゲット</label>
+          <input id="aad-in-target" placeholder="例：20代後半女性" />
+        </div>
+        <div class="aad-field">
+          <label>CPA目標</label>
+          <input id="aad-in-cpa" placeholder="例：8,000円" />
+        </div>
+        <div class="aad-field">
+          <label>媒体</label>
+          <select id="aad-in-media">
+            <option value="">選択してください</option>
+            <option value="Meta">Meta（Facebook / Instagram）</option>
+            <option value="Google">Google広告</option>
+            <option value="YouTube">YouTube</option>
+            <option value="TikTok">TikTok</option>
+            <option value="LINE">LINE広告</option>
+            <option value="X">X（Twitter）</option>
+            <option value="Yahoo!広告">Yahoo!広告</option>
+            <option value="Pinterest">Pinterest</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+        <div class="aad-field">
+          <label>オファー</label>
+          <input id="aad-in-offer" placeholder="例：初回1980円" />
+        </div>
+      </div>
+      <div class="aad-start-row">
+        <button class="aad-btn" id="aad-start-btn">ディレクション開始</button>
+        <button class="aad-btn ghost" id="aad-reset-btn">リセット</button>
+        <span class="aad-err" id="aad-form-err"></span>
+      </div>
+    </div>
+
+    <div class="aad-body" id="aad-body" style="display:none;">
+      <div class="aad-export-bar">
+        <button class="aad-btn aad-btn-hero" id="aad-pptx-btn" disabled>提案資料をダウンロード</button>
+        <span class="aad-export-hint" id="aad-pptx-hint">STEP 01〜05が完了するとダウンロードできます</span>
+        <span class="aad-err" id="aad-pptx-err"></span>
+      </div>
+      <div class="aad-body-inner">
+        <div class="aad-rail" id="aad-rail"></div>
+        <div class="aad-stage" id="aad-stage"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STEPS = [
+    { id: 1, label: "競合・ターゲット分析", short: "分析" },
+    { id: 2, label: "訴求軸5個", short: "訴求軸" },
+    { id: 3, label: "広告コピー10個", short: "コピー" },
+    { id: 4, label: "バナー構成案10個", short: "バナー" },
+    { id: 5, label: "記事LP構成", short: "LP" },
+    { id: 6, label: "ABテスト設計", short: "AB設計" },
+    { id: 7, label: "配信後の数値分析", short: "数値分析" },
+  ];
+
+  let campaign = null;
+  let results = {};      // stepId -> parsed JSON result
+  let statuses = {};     // stepId -> 'idle' | 'loading' | 'done' | 'error'
+  let currentStep = 1;
+
+  const $ = (sel) => document.querySelector(sel);
+
+  async function callClaude(system, user, maxTokens, tools){
+    const body = {
+      model: "claude-sonnet-4-6",
+      max_tokens: maxTokens || 1000,
+      system: system,
+      messages: [{ role: "user", content: user }]
+    };
+    if (tools) body.tools = tools;
+    // Netlify Functions経由でAnthropic APIを呼び出す（APIキーはサーバー側の環境変数で管理）
+    const res = await fetch("/.netlify/functions/claude", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const errText = await res.text().catch(() => "");
+      throw new Error("API呼び出しに失敗しました (" + res.status + ") " + errText);
+    }
+    const data = await res.json();
+    const text = (data.content || [])
+      .filter(b => b.type === "text")
+      .map(b => b.text)
+      .join("\n");
+    const clean = text.replace(/```json/gi, "").replace(/```/g, "").trim();
+    return JSON.parse(clean);
+  }
+
+  function campaignBrief(){
+    let lines = [
+      `商材：${campaign.product}`,
+      campaign.productName ? `商材名：${campaign.productName}` : null,
+      campaign.productUrl ? `商材URL：${campaign.productUrl}` : null,
+      `ターゲット：${campaign.target}`,
+      `CPA目標：${campaign.cpa}`,
+      `媒体：${campaign.media}`,
+      `オファー：${campaign.offer}`,
+    ].filter(Boolean);
+    return lines.join("\n");
+  }
+
+  const SYS_JSON = "あなたは日本のデジタル広告代理店の敏腕クリエイティブディレクターです。出力は必ず有効なJSONのみとし、前置き・説明文・Markdownのコードブロック記号は一切含めないでください。";
+  const WEB_SEARCH_TOOLS = [{ type: "web_search_20250305", name: "web_search" }];
+
+  // ---- Step generators ----
+  async function genStep1(){
+    const hasUrl = !!campaign.productUrl;
+    const research = hasUrl
+      ? `商材URLが指定されています。web検索でそのURL・商材名の情報を調べ、実際の商品内容・訴求・価格帯を踏まえて分析してください。`
+      : ``;
+    const user = `以下の広告案件について、競合・ターゲット分析を行ってください。${research}\n\n${campaignBrief()}\n\n次のJSON形式で出力してください（各文章は簡潔に）：\n{\n"market_overview": "市場・カテゴリ全体の状況を2〜3文で",\n"target_persona": {"summary": "ペルソナ像を2文で", "pain_points": ["悩み1","悩み2","悩み3"], "desires": ["欲求1","欲求2","欲求3"]},\n"competitor_notes": [{"name":"競合名（実在の代表的サービス名でよい）","appeal_point":"訴求の特徴を1文で","gap":"つけ入る隙・差別化余地を1文で"}]\n}\ncompetitor_notesは3件。JSON以外は出力しないこと。`;
+
+    if (hasUrl) {
+      // 商材名・URLを使ったweb検索付き生成を試み、失敗したら自動的にスキップして通常生成にフォールバックする
+      try {
+        return await callClaude(SYS_JSON, user, 1000, WEB_SEARCH_TOOLS);
+      } catch (e) {
+        console.warn("商材URLの参照に失敗したため、通常の分析にフォールバックします", e);
+        const fallbackUser = `以下の広告案件について、競合・ターゲット分析を行ってください。\n\n${campaignBrief()}\n\n次のJSON形式で出力してください（各文章は簡潔に）：\n{\n"market_overview": "市場・カテゴリ全体の状況を2〜3文で",\n"target_persona": {"summary": "ペルソナ像を2文で", "pain_points": ["悩み1","悩み2","悩み3"], "desires": ["欲求1","欲求2","欲求3"]},\n"competitor_notes": [{"name":"競合名（実在の代表的サービス名でよい）","appeal_point":"訴求の特徴を1文で","gap":"つけ入る隙・差別化余地を1文で"}]\n}\ncompetitor_notesは3件。JSON以外は出力しないこと。`;
+        return await callClaude(SYS_JSON, fallbackUser, 1000);
+      }
+    }
+    return await callClaude(SYS_JSON, user, 1000);
+  }
+
+
+  async function genStep2(){
+    const user = `以下の広告案件と分析結果をもとに、考えられる訴求軸の中から最もおすすめできる5個を厳選してください。数を絞る分、根拠を明確にすること。\n\n${campaignBrief()}\n\n分析結果：${JSON.stringify(results[1])}\n\n次のJSON形式で出力してください：\n{"axes":[{"title":"訴求軸名（10文字前後）","description":"なぜ効くか・おすすめ理由を1文で"}]}\nちょうど5個。効果が見込める順に並べること。`;
+    return await callClaude(SYS_JSON, user, 1000);
+  }
+
+  async function genStep3(){
+    const axes = results[2].axes;
+    const user = `以下の訴求軸をもとに、Meta広告向けの短い広告コピーの中から最もおすすめできる10個を厳選して作成してください。各コピーは20文字以内、キャッチーで具体的に。訴求軸をまんべんなくカバーすること。\n\n${campaignBrief()}\n\n訴求軸：${JSON.stringify(axes)}\n\n次のJSON形式のみで出力：\n{"copies":[{"text":"コピー文言","axis":"対応する訴求軸名"}]}\nちょうど10個。`;
+    return await callClaude(SYS_JSON, user, 1000);
+  }
+
+  async function genStep4(){
+    const user = `以下の情報をもとに、Meta広告用のバナー構成案を10個考えてください。各案は簡潔に。\n\n${campaignBrief()}\n\n訴求軸：${JSON.stringify(results[2].axes.map(a=>a.title))}\n\n次のJSON形式のみで出力：\n{"banners":[{"headline":"バナー内キャッチコピー（15文字以内）","visual":"ビジュアル案を1文で","cta":"CTAボタン文言（8文字以内）"}]}\nちょうど10個。`;
+    return await callClaude(SYS_JSON, user, 1000);
+  }
+
+  async function genStep5(){
+    const user = `以下の情報をもとに、CVR最大化を狙った記事LP（縦長LP）の構成案を作ってください。数多くのセクション案の中から、最も効果的な流れになるおすすめの5セクションに絞り込むこと。\n\n${campaignBrief()}\n\n訴求軸・分析：${JSON.stringify(results[1])}\n\n次のJSON形式のみで出力（各contentは1〜2文で簡潔に）：\n{"sections":[{"heading":"セクション見出し","content":"このセクションで書く内容の要点"}]}\nちょうど5セクション。共感・悩みの言語化→商品紹介・ベネフィット→社会的証明→オファー→CTAの要素を5つの中に凝縮すること。`;
+    return await callClaude(SYS_JSON, user, 1000);
+  }
+
+  async function genStep6(){
+    const user = `以下の情報をもとに、ABテスト設計案を作成してください。\n\n${campaignBrief()}\n\nコピー例：${JSON.stringify((results[3].copies||[]).slice(0,6).map(c=>c.text))}\nバナー案：${JSON.stringify((results[4].banners||[]).slice(0,4).map(b=>b.headline))}\n\n次のJSON形式のみで出力：\n{"tests":[{"test_name":"テスト名","hypothesis":"検証したい仮説を1文で","variant_a":"パターンA概要","variant_b":"パターンB概要","metric":"主要指標（例：CTR, CPA, CVR）"}]}\n4〜5件。`;
+    return await callClaude(SYS_JSON, user, 1000);
+  }
+
+  async function genStep7(metrics){
+    const user = `配信済み広告の実績データをもとに、数値分析と改善提案を行ってください。\n\n${campaignBrief()}\nCPA目標：${campaign.cpa}\n\n実績：\nインプレッション：${metrics.impressions}\nクリック数：${metrics.clicks}\nCTR：${metrics.ctr}\nコンバージョン数：${metrics.conversions}\n実績CPA：${metrics.cpa_actual}\n消化金額：${metrics.spend}\n\n次のJSON形式のみで出力：\n{"diagnosis":"全体所見を2〜3文で","wins":["good だった点1","good だった点2"],"issues":["課題1","課題2"],"next_actions":["次の打ち手1（具体的に）","次の打ち手2","次の打ち手3"]}`;
+    return await callClaude(SYS_JSON, user, 1000);
+  }
+
+  const GENERATORS = { 1: genStep1, 2: genStep2, 3: genStep3, 4: genStep4, 5: genStep5, 6: genStep6 };
+
+  // ---- Rendering ----
+  function renderRail(){
+    const rail = $("#aad-rail");
+    rail.innerHTML = "";
+    STEPS.forEach(step => {
+      const btn = document.createElement("button");
+      btn.className = "aad-step-btn" + (step.id === currentStep ? " active" : "") + (statuses[step.id] === "done" ? " done" : "");
+      btn.innerHTML = `
+        <span class="aad-step-num">${String(step.id).padStart(2,"0")}</span>
+        <span>
+          <span class="aad-step-label">${step.label}</span>
+          <span class="aad-step-short">${step.short}</span>
+          ${statuses[step.id] === "done" ? '<span class="aad-stamp">済</span>' : ""}
+        </span>`;
+      btn.addEventListener("click", () => { currentStep = step.id; render(); });
+      rail.appendChild(btn);
+    });
+  }
+
+  function copyText(str, el){
+    navigator.clipboard && navigator.clipboard.writeText(str).catch(()=>{});
+    el.classList.add("copied");
+    setTimeout(() => el.classList.remove("copied"), 900);
+  }
+
+  function stageHeader(step){
+    return `<div class="aad-stage-head">
+      <h2 class="aad-stage-title"><span class="aad-stage-num">STEP ${String(step.id).padStart(2,"0")}</span>${step.label}</h2>
+      ${statuses[step.id] === "done" ? `<button class="aad-btn ghost small" id="aad-regen">この内容を作り直す</button>` : ""}
+    </div>`;
+  }
+
+  function renderStage(){
+    const stage = $("#aad-stage");
+    const step = STEPS.find(s => s.id === currentStep);
+    const status = statuses[step.id] || "idle";
+
+    if (step.id <= 6 && status !== "done" && status !== "loading") {
+      const prevReady = step.id === 1 || statuses[step.id - 1] === "done";
+      stage.innerHTML = stageHeader(step) + (prevReady
+        ? `<div class="aad-empty">まだ生成されていません。<br/><br/><button class="aad-btn" id="aad-gen-btn">${step.label}を生成する</button></div>`
+        : `<div class="aad-empty">前のステップ（STEP ${String(step.id-1).padStart(2,"0")}）を先に完了してください。</div>`);
+      if (prevReady) $("#aad-gen-btn").addEventListener("click", () => runStep(step.id));
+      return;
+    }
+
+    if (status === "loading") {
+      const msgs = {1:"競合を張り込み中…",2:"訴求の切り口を厳選しています…",3:"コピーを10本書いています…",4:"バナー構成を組んでいます…",5:"LPの流れを5セクションに凝縮しています…",6:"テスト設計を組んでいます…",7:"数値を診断しています…"};
+      stage.innerHTML = stageHeader(step) + `<div class="aad-loading">${msgs[step.id] || "生成中…"}</div>`;
+      return;
+    }
+
+    if (status === "error") {
+      stage.innerHTML = stageHeader(step) + `<div class="aad-empty">生成に失敗しました。<br/><br/><button class="aad-btn" id="aad-retry-btn">再試行する</button></div>`;
+      $("#aad-retry-btn").addEventListener("click", () => runStep(step.id));
+      return;
+    }
+
+    // status === done -> render content
+    let html = stageHeader(step);
+    const r = results[step.id];
+
+    if (step.id === 1) {
+      html += `<div class="aad-card"><span class="aad-tag">MARKET OVERVIEW</span><p>${r.market_overview}</p></div>`;
+      html += `<div class="aad-card"><h4>ターゲット像</h4><p>${r.target_persona.summary}</p>
+        <div style="margin-top:10px;"><span class="aad-tag">悩み</span><p>${r.target_persona.pain_points.join(" ／ ")}</p></div>
+        <div style="margin-top:10px;"><span class="aad-tag">欲求</span><p>${r.target_persona.desires.join(" ／ ")}</p></div></div>`;
+      r.competitor_notes.forEach(c => {
+        html += `<div class="aad-card"><h4>${c.name}</h4><p><span class="aad-tag">訴求</span> ${c.appeal_point}</p><p style="margin-top:6px;"><span class="aad-tag">つけ入る隙</span> ${c.gap}</p></div>`;
+      });
+    }
+
+    if (step.id === 2) {
+      r.axes.forEach((a, i) => {
+        html += `<div class="aad-card"><h4><span class="aad-section-num">${String(i+1).padStart(2,"0")}</span>${a.title}</h4><p>${a.description}</p></div>`;
+      });
+    }
+
+    if (step.id === 3) {
+      html += `<div class="aad-copy-grid">`;
+      r.copies.forEach(c => {
+        html += `<div class="aad-copy-item" data-text="${encodeURIComponent(c.text)}">
+          <span class="aad-copy-axis">${c.axis || ""}</span>${c.text}
+          <span class="aad-copy-copied">COPIED</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (step.id === 4) {
+      html += `<div class="aad-copy-grid">`;
+      r.banners.forEach((b, i) => {
+        html += `<div class="aad-card"><h4><span class="aad-section-num">${String(i+1).padStart(2,"0")}</span>${b.headline}</h4>
+          <p><span class="aad-tag">VISUAL</span> ${b.visual}</p>
+          <p style="margin-top:6px;"><span class="aad-tag">CTA</span> ${b.cta}</p></div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (step.id === 5) {
+      r.sections.forEach((s, i) => {
+        html += `<div class="aad-card"><h4><span class="aad-section-num">${String(i+1).padStart(2,"0")}</span>${s.heading}</h4><p>${s.content}</p></div>`;
+      });
+    }
+
+    if (step.id === 6) {
+      r.tests.forEach((t, i) => {
+        html += `<div class="aad-card"><h4><span class="aad-section-num">${String(i+1).padStart(2,"0")}</span>${t.test_name}</h4>
+          <p><span class="aad-tag">仮説</span> ${t.hypothesis}</p>
+          <p style="margin-top:6px;"><span class="aad-tag">A</span> ${t.variant_a} 　<span class="aad-tag">B</span> ${t.variant_b}</p>
+          <p style="margin-top:6px;"><span class="aad-tag">指標</span> ${t.metric}</p></div>`;
+      });
+    }
+
+    if (step.id === 7) {
+      html += renderStep7Content(r);
+    }
+
+    stage.innerHTML = html;
+
+    if (statuses[step.id] === "done" && step.id !== 7) {
+      const regen = $("#aad-regen");
+      if (regen) regen.addEventListener("click", () => runStep(step.id));
+      if (step.id === 3) {
+        stage.querySelectorAll(".aad-copy-item").forEach(el => {
+          el.addEventListener("click", () => copyText(decodeURIComponent(el.dataset.text), el));
+        });
+      }
+    }
+  }
+
+  function renderStep7Content(r){
+    if (!r) {
+      return `<div class="aad-metrics-form">
+        <div class="aad-field"><label>インプレッション</label><input id="m-imp" placeholder="例：120000" /></div>
+        <div class="aad-field"><label>クリック数</label><input id="m-clk" placeholder="例：1800" /></div>
+        <div class="aad-field"><label>CTR</label><input id="m-ctr" placeholder="例：1.5%" /></div>
+        <div class="aad-field"><label>コンバージョン数</label><input id="m-cv" placeholder="例：40" /></div>
+        <div class="aad-field"><label>実績CPA</label><input id="m-cpa" placeholder="例：11,000円" /></div>
+        <div class="aad-field"><label>消化金額</label><input id="m-spend" placeholder="例：440,000円" /></div>
+      </div>
+      <button class="aad-btn" id="aad-analyze-btn">配信結果を分析する</button>
+      <div class="aad-err" id="aad-m-err" style="display:block;margin-top:10px;"></div>`;
+    }
+    return `<div class="aad-card"><span class="aad-tag">DIAGNOSIS</span><p>${r.diagnosis}</p></div>
+      <div class="aad-diag-block"><h5>Wins</h5><ul>${r.wins.map(w=>`<li>${w}</li>`).join("")}</ul></div>
+      <div class="aad-diag-block"><h5>Issues</h5><ul>${r.issues.map(w=>`<li>${w}</li>`).join("")}</ul></div>
+      <div class="aad-diag-block"><h5>Next Actions</h5><ul>${r.next_actions.map(w=>`<li>${w}</li>`).join("")}</ul></div>
+      <button class="aad-btn ghost small" id="aad-regen7">再分析する</button>`;
+  }
+
+  function updateExportBar(){
+    const btn = $("#aad-pptx-btn");
+    const hint = $("#aad-pptx-hint");
+    if (!btn) return;
+    const ready = [1, 2, 3, 4, 5].every(id => statuses[id] === "done");
+    btn.disabled = !ready;
+    hint.style.display = ready ? "none" : "inline";
+  }
+
+  function render(){
+    renderRail();
+    renderStage();
+    updateExportBar();
+    if (currentStep === 7 && statuses[7] === "done") {
+      const btn = $("#aad-regen7");
+      if (btn) btn.addEventListener("click", () => { results[7] = null; statuses[7] = "idle"; render(); });
+    }
+    if (currentStep === 7 && statuses[7] !== "done") {
+      const btn = $("#aad-analyze-btn");
+      if (btn) btn.addEventListener("click", runStep7);
+    }
+  }
+
+  async function runStep(id){
+    statuses[id] = "loading";
+    render();
+    try {
+      const data = await GENERATORS[id]();
+      results[id] = data;
+      statuses[id] = "done";
+    } catch (e) {
+      console.error(e);
+      statuses[id] = "error";
+    }
+    render();
+  }
+
+  async function runStep7(){
+    const metrics = {
+      impressions: $("#m-imp").value || "-",
+      clicks: $("#m-clk").value || "-",
+      ctr: $("#m-ctr").value || "-",
+      conversions: $("#m-cv").value || "-",
+      cpa_actual: $("#m-cpa").value || "-",
+      spend: $("#m-spend").value || "-",
+    };
+    statuses[7] = "loading";
+    render();
+    try {
+      const data = await genStep7(metrics);
+      results[7] = Object.assign({}, data, { metrics });
+      statuses[7] = "done";
+    } catch (e) {
+      console.error(e);
+      statuses[7] = "error";
+    }
+    render();
+  }
+
+  $("#aad-start-btn").addEventListener("click", () => {
+    const product = $("#aad-in-product").value.trim();
+    const productName = $("#aad-in-product-name").value.trim();
+    const productUrl = $("#aad-in-product-url").value.trim();
+    const target = $("#aad-in-target").value.trim();
+    const cpa = $("#aad-in-cpa").value.trim();
+    const media = $("#aad-in-media").value.trim();
+    const offer = $("#aad-in-offer").value.trim();
+    const err = $("#aad-form-err");
+    if (!product || !target || !cpa || !media || !offer) {
+      err.textContent = "すべての項目を入力してください。（商材名・URLは任意です）";
+      return;
+    }
+    err.textContent = "";
+    campaign = { product, productName, productUrl, target, cpa, media, offer };
+    results = {}; statuses = {}; currentStep = 1;
+    $("#aad-body").style.display = "flex";
+    render();
+    document.getElementById("aad-body").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  $("#aad-reset-btn").addEventListener("click", () => {
+    campaign = null; results = {}; statuses = {}; currentStep = 1;
+    ["aad-in-product","aad-in-product-name","aad-in-product-url","aad-in-target","aad-in-cpa","aad-in-media","aad-in-offer"].forEach(id => $("#"+id).value = "");
+    $("#aad-body").style.display = "none";
+    $("#aad-form-err").textContent = "";
+  });
+
+  // ---- PPTX export ----
+  function loadScriptOnce(src){
+    return new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error("script load failed: " + src));
+      document.head.appendChild(s);
+    });
+  }
+
+  async function ensurePptxLib(){
+    if (window.PptxGenJS) return;
+    const sources = [
+      "https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.bundle.js",
+      "https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js",
+      "https://unpkg.com/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"
+    ];
+    let lastErr = null;
+    for (const src of sources) {
+      try { await loadScriptOnce(src); if (window.PptxGenJS) return; } catch (e) { lastErr = e; }
+    }
+    throw lastErr || new Error("pptxgenjsの読み込みに失敗しました");
+  }
+
+  async function exportPptx(){
+    const btn = $("#aad-pptx-btn");
+    const errEl = $("#aad-pptx-err");
+    errEl.textContent = "";
+    if (!campaign) { errEl.textContent = "まずディレクションを開始してください。"; return; }
+    if (Object.keys(results).length === 0) { errEl.textContent = "生成済みのステップがありません。"; return; }
+
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "資料を作成中…";
+
+    const CREAM = "F7F1E3", PANEL = "EFE2C6", INK = "2E2620", INK_SOFT = "6B5D4B",
+          RUST = "A63D2E", GOLD = "B8933F", LINE = "DFCEA6", ON_DARK = "FBF6EA";
+    const F_HEAD = "Yu Mincho", F_BODY = "Yu Gothic", F_MONO = "Courier New";
+    const PW = 13.333, PH = 7.5, MX = 0.6;
+
+    try {
+      await ensurePptxLib();
+      const pptx = new window.PptxGenJS();
+      pptx.defineLayout({ name: "AAD_WIDE", width: PW, height: PH });
+      pptx.layout = "AAD_WIDE";
+
+      let pn = 1;
+
+      function header(slide, tag, title){
+        slide.background = { color: CREAM };
+        slide.addShape("rect", { x: 0, y: 0, w: PW, h: 0.09, fill: { color: RUST }, line: { type: "none" } });
+        if (tag) slide.addText(tag, { x: MX, y: 0.34, w: 7, h: 0.3, fontSize: 11, color: GOLD, fontFace: F_MONO, charSpacing: 3 });
+        if (title) slide.addText(title, { x: MX, y: 0.62, w: PW - MX * 2, h: 0.7, fontSize: 26, color: INK, bold: true, fontFace: F_HEAD });
+        slide.addShape("rect", { x: 0, y: PH - 0.22, w: PW, h: 0.012, fill: { color: LINE }, line: { type: "none" } });
+        slide.addText("AI AD DIRECTOR ── 提案資料", { x: MX, y: PH - 0.2, w: 5, h: 0.2, fontSize: 8, color: INK_SOFT, fontFace: F_MONO, charSpacing: 1 });
+        slide.addText(String(pn).padStart(2, "0"), { x: PW - 1.1, y: PH - 0.2, w: 0.5, h: 0.2, fontSize: 8, color: INK_SOFT, fontFace: F_MONO, align: "right" });
+        pn++;
+      }
+
+      function panel(slide, x, y, w, h, opts){
+        slide.addShape("roundRect", Object.assign({ x, y, w, h, fill: { color: PANEL }, line: { color: LINE, width: 0.75 }, rectRadius: 0.07 }, opts || {}));
+      }
+
+      // ---------- 1. Cover ----------
+      let cover = pptx.addSlide();
+      cover.background = { color: CREAM };
+      cover.addShape("rect", { x: 0, y: 0, w: 0.18, h: PH, fill: { color: RUST }, line: { type: "none" } });
+      cover.addText("PROPOSAL", { x: 1.0, y: 1.7, w: 8, h: 0.4, fontSize: 13, color: GOLD, fontFace: F_MONO, charSpacing: 4 });
+      cover.addText(campaign.productName || campaign.product, { x: 1.0, y: 2.1, w: 11, h: 1.3, fontSize: 42, bold: true, color: INK, fontFace: F_HEAD });
+      cover.addText("広告クリエイティブ提案書", { x: 1.0, y: 3.25, w: 10, h: 0.5, fontSize: 17, color: INK_SOFT, fontFace: F_BODY });
+
+      const chips = [["ターゲット", campaign.target], ["CPA目標", campaign.cpa], ["媒体", campaign.media], ["オファー", campaign.offer]];
+      const chipW = 2.75, chipGap = 0.18;
+      chips.forEach(([label, val], i) => {
+        const cx = 1.0 + i * (chipW + chipGap);
+        panel(cover, cx, 4.55, chipW, 1.15);
+        cover.addText(label, { x: cx + 0.2, y: 4.68, w: chipW - 0.4, h: 0.3, fontSize: 9, color: GOLD, fontFace: F_MONO, charSpacing: 1.5 });
+        cover.addText(String(val), { x: cx + 0.2, y: 4.98, w: chipW - 0.4, h: 0.6, fontSize: 14, color: INK, bold: true, fontFace: F_BODY });
+      });
+      if (campaign.productUrl) {
+        cover.addText(campaign.productUrl, { x: 1.0, y: 6.15, w: 10, h: 0.3, fontSize: 9, color: INK_SOFT, fontFace: F_MONO });
+      }
+      cover.addText(String(pn).padStart(2, "0"), { x: PW - 1.1, y: PH - 0.45, w: 0.5, h: 0.2, fontSize: 8, color: INK_SOFT, fontFace: F_MONO, align: "right" });
+      pn++;
+
+      // ---------- 2. Process roadmap ----------
+      let roadmap = pptx.addSlide();
+      header(roadmap, "OUR PROCESS", "7ステップで結果にコミットするディレクション");
+      const stepCopy = [
+        ["01", "競合・ターゲット分析", "市場と生活者を丁寧に読み解く"],
+        ["02", "訴求軸の設計", "刺さる切り口を絞り込む"],
+        ["03", "広告コピー制作", "型に頼らず言語化する"],
+        ["04", "バナー構成案", "視認性とCTRを両立させる"],
+        ["05", "記事LP構成", "読ませて、納得させ、動かす"],
+        ["06", "ABテスト設計", "勝ちパターンを検証で見極める"],
+        ["07", "配信後の数値分析", "数字で語り、次の一手を出す"],
+      ];
+      const rmCardW = 2.85, rmGap = 0.2, rmX0 = MX, rmY = [1.65, 4.15], rmCardH = 2.3;
+      stepCopy.forEach((sc, i) => {
+        const row = i < 4 ? 0 : 1;
+        const col = i < 4 ? i : i - 4;
+        const x = rmX0 + col * (rmCardW + rmGap);
+        const y = rmY[row];
+        const included = !!results[Number(sc[0])];
+        panel(roadmap, x, y, rmCardW, rmCardH, included ? { line: { color: RUST, width: 1.25 } } : {});
+        roadmap.addText(sc[0], { x: x + 0.18, y: y + 0.14, w: 1.4, h: 0.55, fontSize: 26, bold: true, color: included ? RUST : INK_SOFT, fontFace: F_HEAD });
+        roadmap.addText(included ? "COMPLETE" : "PLANNED", { x: x + rmCardW - 1.5, y: y + 0.22, w: 1.3, h: 0.3, fontSize: 7, color: included ? RUST : INK_SOFT, fontFace: F_MONO, align: "right", charSpacing: 1 });
+        roadmap.addText(sc[1], { x: x + 0.18, y: y + 0.85, w: rmCardW - 0.36, h: 0.55, fontSize: 13, bold: true, color: INK, fontFace: F_BODY });
+        roadmap.addText(sc[2], { x: x + 0.18, y: y + 1.4, w: rmCardW - 0.36, h: 0.8, fontSize: 9.5, color: INK_SOFT, fontFace: F_BODY, lineSpacingMultiple: 1.3 });
+      });
+
+      // ---------- STEP1: Market & Target ----------
+      if (results[1]) {
+        const r = results[1];
+        let s = pptx.addSlide();
+        header(s, "STEP 01", "競合・ターゲット分析");
+        s.addShape("rect", { x: MX, y: 1.5, w: 0.05, h: 0.7, fill: { color: GOLD }, line: { type: "none" } });
+        s.addText(r.market_overview, { x: MX + 0.25, y: 1.5, w: PW - MX * 2 - 0.25, h: 0.7, fontSize: 11.5, italic: true, color: INK, fontFace: F_BODY, valign: "middle" });
+
+        const colY = 2.5, colH = 4.4;
+        panel(s, MX, colY, 6.1, colH);
+        s.addText("TARGET PERSONA", { x: MX + 0.3, y: colY + 0.25, w: 5.5, h: 0.3, fontSize: 10, color: GOLD, fontFace: F_MONO, charSpacing: 2 });
+        s.addText(r.target_persona.summary, { x: MX + 0.3, y: colY + 0.65, w: 5.5, h: 0.9, fontSize: 12, color: INK, fontFace: F_BODY, lineSpacingMultiple: 1.3 });
+        s.addText("悩み", { x: MX + 0.3, y: colY + 1.7, w: 2, h: 0.3, fontSize: 10, bold: true, color: RUST, fontFace: F_BODY });
+        s.addText(r.target_persona.pain_points.map(p => "・" + p).join("\n"), { x: MX + 0.3, y: colY + 2.05, w: 5.5, h: 1.1, fontSize: 10.5, color: INK, fontFace: F_BODY, lineSpacingMultiple: 1.35 });
+        s.addText("欲求", { x: MX + 0.3, y: colY + 3.2, w: 2, h: 0.3, fontSize: 10, bold: true, color: GOLD, fontFace: F_BODY });
+        s.addText(r.target_persona.desires.map(p => "・" + p).join("\n"), { x: MX + 0.3, y: colY + 3.55, w: 5.5, h: 0.8, fontSize: 10.5, color: INK, fontFace: F_BODY, lineSpacingMultiple: 1.35 });
+
+        const rx = MX + 6.4;
+        panel(s, rx, colY, PW - MX - rx, colH);
+        s.addText("COMPETITIVE LANDSCAPE", { x: rx + 0.3, y: colY + 0.25, w: 5.5, h: 0.3, fontSize: 10, color: GOLD, fontFace: F_MONO, charSpacing: 2 });
+        const rowH = (colH - 0.7) / Math.max(r.competitor_notes.length, 1);
+        r.competitor_notes.forEach((c, i) => {
+          const cy = colY + 0.65 + i * rowH;
+          s.addText(c.name, { x: rx + 0.3, y: cy, w: PW - MX - rx - 0.6, h: 0.3, fontSize: 11.5, bold: true, color: INK, fontFace: F_BODY });
+          s.addText("訴求： " + c.appeal_point, { x: rx + 0.3, y: cy + 0.32, w: PW - MX - rx - 0.6, h: 0.35, fontSize: 9.5, color: INK_SOFT, fontFace: F_BODY });
+          s.addText("隙： " + c.gap, { x: rx + 0.3, y: cy + 0.62, w: PW - MX - rx - 0.6, h: 0.35, fontSize: 9.5, color: RUST, fontFace: F_BODY });
+          if (i < r.competitor_notes.length - 1) s.addShape("rect", { x: rx + 0.3, y: cy + rowH - 0.1, w: PW - MX - rx - 0.6, h: 0.008, fill: { color: LINE }, line: { type: "none" } });
+        });
+      }
+
+      // ---------- STEP2: 訴求軸 ----------
+      if (results[2]) {
+        let s = pptx.addSlide();
+        header(s, "STEP 02", "訴求軸 ── 5選");
+        const axes = results[2].axes;
+        const aW = (PW - MX * 2 - (axes.length - 1) * 0.22) / axes.length, aY = 1.75, aH = 4.9;
+        axes.forEach((a, i) => {
+          const x = MX + i * (aW + 0.22);
+          panel(s, x, aY, aW, aH, i === 0 ? { line: { color: GOLD, width: 1.5 } } : {});
+          if (i === 0) s.addText("BEST PICK", { x: x + 0.15, y: aY + 0.18, w: aW - 0.3, h: 0.25, fontSize: 7.5, color: GOLD, fontFace: F_MONO, charSpacing: 1 });
+          s.addText(String(i + 1).padStart(2, "0"), { x: x + 0.15, y: aY + 0.45, w: aW - 0.3, h: 0.7, fontSize: 24, bold: true, color: RUST, fontFace: F_HEAD });
+          s.addText(a.title, { x: x + 0.15, y: aY + 1.25, w: aW - 0.3, h: 0.9, fontSize: 13, bold: true, color: INK, fontFace: F_BODY, lineSpacingMultiple: 1.2 });
+          s.addText(a.description, { x: x + 0.15, y: aY + 2.25, w: aW - 0.3, h: 2.4, fontSize: 9.5, color: INK_SOFT, fontFace: F_BODY, lineSpacingMultiple: 1.35 });
+        });
+      }
+
+      // ---------- STEP3: 広告コピー ----------
+      if (results[3]) {
+        let s = pptx.addSlide();
+        header(s, "STEP 03", "広告コピー ── 10選");
+        const copies = results[3].copies;
+        const featured = copies.slice(0, 3), rest = copies.slice(3);
+        const fW = (PW - MX * 2 - 0.4) / 3;
+        featured.forEach((c, i) => {
+          const x = MX + i * (fW + 0.2);
+          panel(s, x, 1.65, fW, 1.7, { fill: { color: INK } });
+          s.addText("“", { x: x + 0.1, y: 1.65, w: 1, h: 0.7, fontSize: 34, color: GOLD, fontFace: F_HEAD, bold: true });
+          s.addText(c.text, { x: x + 0.25, y: 2.05, w: fW - 0.5, h: 0.9, fontSize: 14, bold: true, color: ON_DARK, fontFace: F_BODY, align: "center", valign: "middle" });
+          s.addText(c.axis || "", { x: x + 0.25, y: 3.0, w: fW - 0.5, h: 0.25, fontSize: 8, color: GOLD, fontFace: F_MONO, align: "center" });
+        });
+        const tableOpts = { fontSize: 10, color: INK, fill: { color: PANEL }, border: { type: "solid", color: LINE, pt: 0.5 }, fontFace: F_BODY, autoPage: false, valign: "middle" };
+        const rows = [["#", "コピー", "訴求軸"]].concat(rest.map((c, i) => [String(i + 4), c.text, c.axis || ""]));
+        s.addTable(rows, Object.assign({ x: MX, y: 3.65, w: PW - MX * 2, colW: [0.7, 7.9, 3.5] }, tableOpts, { rowH: 0.36 }));
+        // header row style
+        s.addTable([["#", "コピー", "訴求軸"]], { x: MX, y: 3.65, w: PW - MX * 2, colW: [0.7, 7.9, 3.5], fontSize: 10, bold: true, color: ON_DARK, fill: { color: RUST }, fontFace: F_BODY, autoPage: false, rowH: 0.36 });
+      }
+
+      // ---------- STEP4: バナー構成案 ----------
+      if (results[4]) {
+        let s = pptx.addSlide();
+        header(s, "STEP 04", "バナー構成案（10）");
+        const banners = results[4].banners;
+        const bW = (PW - MX * 2 - 4 * 0.2) / 5, bH = 2.35, rowYs = [1.65, 4.15];
+        banners.forEach((b, i) => {
+          const row = i < 5 ? 0 : 1, col = i < 5 ? i : i - 5;
+          const x = MX + col * (bW + 0.2), y = rowYs[row];
+          panel(s, x, y, bW, bH);
+          s.addShape("rect", { x: x + 0.1, y: y + 0.1, w: bW - 0.2, h: 1.2, fill: { color: RUST }, line: { type: "none" } });
+          s.addText(b.headline, { x: x + 0.18, y: y + 0.15, w: bW - 0.36, h: 1.1, fontSize: 10.5, bold: true, color: ON_DARK, fontFace: F_BODY, align: "center", valign: "middle" });
+          s.addShape("roundRect", { x: x + bW / 2 - 0.55, y: y + 1.42, w: 1.1, h: 0.32, fill: { color: GOLD }, line: { type: "none" }, rectRadius: 0.16 });
+          s.addText(b.cta, { x: x + bW / 2 - 0.55, y: y + 1.42, w: 1.1, h: 0.32, fontSize: 8, bold: true, color: INK, fontFace: F_BODY, align: "center", valign: "middle" });
+          s.addText(b.visual, { x: x + 0.12, y: y + 1.82, w: bW - 0.24, h: 0.5, fontSize: 7, color: INK_SOFT, fontFace: F_BODY, align: "center", lineSpacingMultiple: 1.15 });
+        });
+      }
+
+      // ---------- STEP5: 記事LP構成 ----------
+      if (results[5]) {
+        let s = pptx.addSlide();
+        header(s, "STEP 05", "記事LP構成 ── 5セクション");
+        const secs = results[5].sections;
+        const lineY = 2.35, lineX0 = 1.3, lineX1 = PW - 1.3;
+        s.addShape("rect", { x: lineX0, y: lineY - 0.008, w: lineX1 - lineX0, h: 0.016, fill: { color: LINE }, line: { type: "none" } });
+        const step = (lineX1 - lineX0) / (secs.length - 1 || 1);
+        secs.forEach((sec, i) => {
+          const cx = secs.length === 1 ? (lineX0 + lineX1) / 2 : lineX0 + i * step;
+          s.addShape("ellipse", { x: cx - 0.2, y: lineY - 0.2, w: 0.4, h: 0.4, fill: { color: RUST }, line: { color: CREAM, width: 2 } });
+          s.addText(String(i + 1), { x: cx - 0.2, y: lineY - 0.2, w: 0.4, h: 0.4, fontSize: 12, bold: true, color: ON_DARK, fontFace: F_BODY, align: "center", valign: "middle" });
+          const colW = step > 0 ? step - 0.15 : 2.6;
+          const colX = cx - colW / 2;
+          s.addText(sec.heading, { x: colX, y: lineY + 0.35, w: colW, h: 0.7, fontSize: 11.5, bold: true, color: INK, fontFace: F_BODY, align: "center", lineSpacingMultiple: 1.15 });
+          s.addText(sec.content, { x: colX, y: lineY + 1.05, w: colW, h: 2.0, fontSize: 9, color: INK_SOFT, fontFace: F_BODY, align: "center", lineSpacingMultiple: 1.3 });
+        });
+      }
+
+      // ---------- STEP6: ABテスト設計 ----------
+      if (results[6]) {
+        let s = pptx.addSlide();
+        header(s, "STEP 06", "ABテスト設計");
+        const tests = results[6].tests;
+        const rows = [["#", "テスト名", "仮説", "パターンA / B", "指標"]].concat(
+          tests.map((t, i) => [String(i + 1), t.test_name, t.hypothesis, t.variant_a + "  /  " + t.variant_b, t.metric])
+        );
+        s.addTable(rows, {
+          x: MX, y: 1.7, w: PW - MX * 2, colW: [0.5, 2.0, 3.6, 4.4, 1.83],
+          fontSize: 10, color: INK, fill: { color: PANEL }, fontFace: F_BODY,
+          border: { type: "solid", color: LINE, pt: 0.5 }, autoPage: false, valign: "middle", rowH: 0.55,
+        });
+        s.addTable([["#", "テスト名", "仮説", "パターンA / B", "指標"]], {
+          x: MX, y: 1.7, w: PW - MX * 2, colW: [0.5, 2.0, 3.6, 4.4, 1.83],
+          fontSize: 10, bold: true, color: ON_DARK, fill: { color: RUST }, fontFace: F_BODY, autoPage: false, rowH: 0.4,
+        });
+      }
+
+      // ---------- STEP7: 配信後の数値分析 ----------
+      if (results[7]) {
+        const r = results[7];
+        const m = r.metrics || {};
+        let s = pptx.addSlide();
+        header(s, "STEP 07", "配信後の数値分析");
+        s.addText(r.diagnosis, { x: MX, y: 1.5, w: PW - MX * 2, h: 0.7, fontSize: 11.5, italic: true, color: INK, fontFace: F_BODY });
+
+        const kpis = [
+          ["実績CPA", m.cpa_actual || "-", "目標： " + campaign.cpa],
+          ["CTR", m.ctr || "-", "クリック： " + (m.clicks || "-")],
+          ["CV数", m.conversions || "-", "Imp： " + (m.impressions || "-")],
+          ["消化金額", m.spend || "-", ""],
+        ];
+        const kW = (PW - MX * 2 - 3 * 0.2) / 4;
+        kpis.forEach((k, i) => {
+          const x = MX + i * (kW + 0.2);
+          panel(s, x, 2.35, kW, 1.25);
+          s.addText(k[0], { x: x + 0.18, y: 2.48, w: kW - 0.36, h: 0.25, fontSize: 9, color: GOLD, fontFace: F_MONO, charSpacing: 1 });
+          s.addText(String(k[1]), { x: x + 0.18, y: 2.72, w: kW - 0.36, h: 0.5, fontSize: 19, bold: true, color: INK, fontFace: F_BODY });
+          s.addText(k[2], { x: x + 0.18, y: 3.25, w: kW - 0.36, h: 0.3, fontSize: 8, color: INK_SOFT, fontFace: F_BODY });
+        });
+
+        const cols = [
+          { title: "良かった点", color: GOLD, items: r.wins },
+          { title: "課題", color: RUST, items: r.issues },
+          { title: "次の打ち手", color: INK, items: r.next_actions },
+        ];
+        const colW3 = (PW - MX * 2 - 2 * 0.25) / 3;
+        cols.forEach((c, i) => {
+          const x = MX + i * (colW3 + 0.25);
+          panel(s, x, 3.95, colW3, 2.9);
+          s.addShape("rect", { x, y: 3.95, w: colW3, h: 0.08, fill: { color: c.color }, line: { type: "none" } });
+          s.addText(c.title, { x: x + 0.22, y: 4.15, w: colW3 - 0.4, h: 0.35, fontSize: 12, bold: true, color: c.color === GOLD ? INK : c.color, fontFace: F_BODY });
+          s.addText(c.items.map(w => "・" + w).join("\n"), { x: x + 0.22, y: 4.55, w: colW3 - 0.4, h: 2.15, fontSize: 9.5, color: INK, fontFace: F_BODY, lineSpacingMultiple: 1.35 });
+        });
+      }
+
+      // ---------- Closing ----------
+      let closing = pptx.addSlide();
+      closing.background = { color: CREAM };
+      closing.addShape("rect", { x: PW - 0.18, y: 0, w: 0.18, h: PH, fill: { color: RUST }, line: { type: "none" } });
+      closing.addText("NEXT STEP", { x: MX, y: 1.1, w: 8, h: 0.35, fontSize: 12, color: GOLD, fontFace: F_MONO, charSpacing: 4 });
+      closing.addText("次の一歩を、ご一緒に。", { x: MX, y: 1.5, w: 11, h: 1.0, fontSize: 32, bold: true, color: INK, fontFace: F_HEAD });
+      closing.addText("このご提案がお役に立てば幸いです。詳細のすり合わせから、お気軽にご相談ください。", { x: MX, y: 2.5, w: 10.5, h: 0.6, fontSize: 12.5, color: INK_SOFT, fontFace: F_BODY });
+
+      const flow = ["キックオフMTG", "クリエイティブ制作", "配信開始", "週次レポーティング"];
+      const fW2 = 2.55, fGap = 0.55;
+      flow.forEach((label, i) => {
+        const x = MX + i * (fW2 + fGap);
+        panel(closing, x, 3.7, fW2, 1.0);
+        closing.addText(String(i + 1).padStart(2, "0"), { x: x + 0.15, y: 3.8, w: 1, h: 0.3, fontSize: 9, color: GOLD, fontFace: F_MONO });
+        closing.addText(label, { x: x + 0.15, y: 4.05, w: fW2 - 0.3, h: 0.55, fontSize: 12, bold: true, color: INK, fontFace: F_BODY, valign: "middle" });
+        if (i < flow.length - 1) closing.addText("→", { x: x + fW2 + 0.05, y: 3.7, w: fGap - 0.1, h: 1.0, fontSize: 16, color: LINE, align: "center", valign: "middle" });
+      });
+      closing.addText("ご相談・お見積りのご連絡をお待ちしております。", { x: MX, y: 5.6, w: 10, h: 0.4, fontSize: 11, color: INK_SOFT, fontFace: F_BODY });
+
+      const safeProduct = (campaign.product || "案件").replace(/[\\/:*?"<>|]/g, "");
+      await pptx.writeFile({ fileName: `AI広告ディレクター_提案資料_${safeProduct}.pptx` });
+    } catch (e) {
+      console.error(e);
+      errEl.textContent = "資料の生成に失敗しました。通信環境を確認のうえ再試行してください。";
+    } finally {
+      btn.disabled = false;
+      btn.textContent = orig;
+    }
+  }
+
+  $("#aad-pptx-btn").addEventListener("click", exportPptx);
+})();
+</script>
