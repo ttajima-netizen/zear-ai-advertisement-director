@@ -43,9 +43,10 @@ exports.handler = async function (event) {
   const geminiBody = {
     contents,
     generationConfig: {
-      maxOutputTokens: maxTokens,
+      // Gemini 3.x系は既定で「思考」にも出力トークンを使うため、
+      // クライアント指定値より余裕を持たせて打ち切り・JSON破損を防ぐ
+      maxOutputTokens: Math.max(maxTokens, 2048),
       responseMimeType: "application/json", // JSONのみを出力させる（前置き・コードフェンス防止）
-      thinkingConfig: { thinkingBudget: 0 }, // 「思考過程」の出力を止め、トークンをそのままJSON出力に使う
     },
   };
   if (system) {
