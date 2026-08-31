@@ -694,7 +694,7 @@
     const step = STEPS.find(s => s.id === currentStep);
     const status = statuses[step.id] || "idle";
 
-    if (step.id <= 6 && status !== "done" && status !== "loading") {
+    if (step.id <= 6 && status === "idle") {
       const prevReady = step.id === 1 || statuses[step.id - 1] === "done";
       stage.innerHTML = stageHeader(step) + (prevReady
         ? `<div class="aad-empty">まだ生成されていません。<br/><br/><button class="aad-btn" id="aad-gen-btn">${step.label}を生成する</button></div>`
@@ -710,7 +710,8 @@
     }
 
     if (status === "error") {
-      stage.innerHTML = stageHeader(step) + `<div class="aad-empty">生成に失敗しました。<br/><br/><button class="aad-btn" id="aad-retry-btn">再試行する</button></div>`;
+      const msg = errorMessages[step.id] || "";
+      stage.innerHTML = stageHeader(step) + `<div class="aad-empty">生成に失敗しました。<br/><br/><button class="aad-btn" id="aad-retry-btn">再試行する</button>${msg ? `<div class="aad-err" style="margin-top:14px; word-break:break-all;">${msg}</div>` : ""}</div>`;
       $("#aad-retry-btn").addEventListener("click", () => runStep(step.id));
       return;
     }
@@ -831,6 +832,8 @@
     }
   }
 
+  let errorMessages = {};
+
   async function runStep(id){
     statuses[id] = "loading";
     render();
@@ -838,9 +841,11 @@
       const data = await GENERATORS[id]();
       results[id] = data;
       statuses[id] = "done";
+      delete errorMessages[id];
     } catch (e) {
       console.error(e);
       statuses[id] = "error";
+      errorMessages[id] = (e && e.message) ? e.message : String(e);
     }
     render();
   }
@@ -860,9 +865,11 @@
       const data = await genStep7(metrics);
       results[7] = Object.assign({}, data, { metrics });
       statuses[7] = "done";
+      delete errorMessages[7];
     } catch (e) {
       console.error(e);
       statuses[7] = "error";
+      errorMessages[7] = (e && e.message) ? e.message : String(e);
     }
     render();
   }
